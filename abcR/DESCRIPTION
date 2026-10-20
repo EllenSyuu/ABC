@@ -1,7 +1,7 @@
 Package: abcR
 Type: Package
 Title: Tools Supporting the Adjusted Bayesian Completion Rates (ABC) Model
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: c(
     person("Bilal", "Barakat", email="bf.barakat@unesco.org", role = c("aut", "cre")),
     person("Ameer", "Dharamshi", email="ameerdharamshi@gmail.com", role = c("aut")))
@@ -34,6 +34,6 @@ Imports:
     ggthemes,
     forcats,
     utils,
-    qs
+    qs2
 Suggests: 
     haven

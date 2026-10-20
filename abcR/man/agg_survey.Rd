@@ -7,7 +7,8 @@
 agg_survey(survey, bycats, estimate_se = FALSE)
 }
 \arguments{
-\item{survey}{Survey data file.}
+\item{survey}{Survey identifier. Reads data/<survey>_prepped.qs2.
+Legacy .qs files must be converted first; see the repository README.}
 
 \item{bycats}{Category for aggregation.}
 
