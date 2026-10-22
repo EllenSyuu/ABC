@@ -1,0 +1,10 @@
+group,chains,divergences,treedepth_hits,constant_quantities,flagged_quantities,unexplained_constants,evidence_source
+pt,4,0,0,10,0,0,user_console_report
+pm,4,0,0,11,0,0,user_console_report
+pf,4,0,0,10,0,0,user_console_report
+lt,4,0,0,5,0,0,user_console_report
+lm,4,0,0,6,0,0,user_console_report
+lf,4,0,0,5,0,0,user_console_report
+ut,4,0,0,2,0,0,user_console_report
+um,4,0,0,2,0,0,user_console_report
+uf,4,0,0,2,0,0,user_console_report
