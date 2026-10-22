@@ -2,3 +2,12 @@
 .Rhistory
 .RData
 .Ruserdata
+/results/
+/reports/generated/
+*.o
+*.dll
+*.so
+ABC_compile_log.txt
+
+# RStan model compilation cache
+/models/*.rds
