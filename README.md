@@ -9,6 +9,34 @@ production pipeline. Original model and abcR authors: Bilal Barakat and Ameer
 Dharamshi; upstream repository: https://github.com/AmeerD/ABC (GPL-3). The model
 blob used here is recorded in `docs/upstream_model.json`.
 
+## Quick start with abcR 0.2.0 (recommended)
+
+Everything that used to be typed in the console now lives in the package, so a
+run needs no hand-built objects:
+
+```r
+# once: install the updated package from this repository
+install.packages("abcR", repos = NULL, type = "source")   # from the repo root
+
+library(abcR)
+inputs <- split_abc_groups(abc_example_data())        # checks, cap_adj, 9 groups
+run <- abc_run_groups(inputs, model = mdl_compile(), end_year = 2031,
+                      chains = 4, warmup = 5000, iter = 5000, thin = 5,
+                      seed = 20261022, cores = 4, output_dir = "results/abcR_0.2.0")
+run$diagnostics    # Rhat, ESS, divergences, tree depth, constants; pass column
+run$output         # mdl_process() estimates for all groups
+```
+
+Or simply `source("scripts/run_with_abcR.R")`. What changed in the package is
+listed in `abcR/NEWS.md`; the main points are the packaged modern-syntax Stan model,
+an explicit `end_year` instead of `Sys.Date()`, working multi-chain runs with
+seeded inits, and built-in diagnostics. `scripts/compare_with_uis.R` compares
+estimates with UIS bulk-download figures (needs real-country inputs; see
+"Validation against UIS" below).
+
+The scripts described further down (`run_ABC_modern.R`, `import_existing_fits.R`,
+...) are the earlier console-free workflow and still work.
+
 ## What is included
 
 - Original Stan model and an array-syntax-only modernised copy.
