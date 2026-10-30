@@ -43,7 +43,7 @@ load_inputs <- function() {
   if (any(df$year != floor(df$year))) stop("Years must be integers.")
   if (any(!df$variable %in% c("prim", "lsec", "usec")) ||
       any(!df$sex %in% c("total", "male", "female"))) stop("Unexpected category.")
-  # Preserve the user's original adjustment and row order.
+  # Preserve the original adjustment and row order used in the reference run.
   # This shift cannot accommodate both extremes within one group; fail explicitly.
   caps <- df %>% group_by(country, variable, sex) %>%
     summarise(upper = max(value), lower = min(value), .groups = "drop")

@@ -3,11 +3,11 @@
 Reproducible execution and sampling diagnostics for the public Adjusted Bayesian
 Completion Rates (ABC/ABCR) example, associated with SDG 4.1.2.
 
-This is an **overlay/workflow**, not a new statistical model, an R package, or a
-validated replacement for the current UIS production pipeline. Original model
-and abcR authors: Bilal Barakat and Ameer Dharamshi; upstream repository:
-https://github.com/AmeerD/ABC. Preserve upstream attribution and GPL-3 licensing.
-The model blob used here is recorded in `docs/upstream_model.json`.
+This is a **reproduction workflow** layered on the upstream code — not a new
+statistical model, an R package, or a validated replacement for the current UIS
+production pipeline. Original model and abcR authors: Bilal Barakat and Ameer
+Dharamshi; upstream repository: https://github.com/AmeerD/ABC (GPL-3). The model
+blob used here is recorded in `docs/upstream_model.json`.
 
 ## What is included
 
@@ -21,44 +21,40 @@ The model blob used here is recorded in `docs/upstream_model.json`.
 - Upstream post-processing, boundary/range/key checks, separate missing-data output,
   and country figures generated specifically from the four-chain fits.
 
-## Files you must supply
+## Requirements
 
-1. Installed, working `abcR`, RStan and other dependencies in `_common.R`.
-2. Original public `data/ABCtest.rda` from your existing upstream checkout.
-   The ZIP does not include this dataset or abcR source.
-3. Optionally the already-completed `*_fit.rds` files to avoid re-running MCMC.
+1. A working installation of `abcR` (from `abcR/` in this repository), RStan and the
+   other dependencies loaded in `scripts/_common.R`.
+2. The public test dataset `data/ABCtest.rda` from the upstream repository. It is not
+   redistributed here.
+3. Optionally, completed `*_fit.rds` files from an earlier run, to avoid re-running MCMC.
 
-Merge these files into the **repository root**, not `abcR/R/`. Keep existing
-`abcR/`, `data/`, `docs/`, original `scripts/ABCtest.R`, and upstream LICENSE.
-This README is suitable as the root README of your reproduction fork. If you want
-to retain the upstream root README unchanged, save this as REPRODUCTION.md and link it.
-Keep a copy before replacing an existing README; do not delete unrelated files.
+## Reference environment
 
-## Working environment reported by the user
-
-Windows 11; R 4.6.1; abcR 0.1.0.9000; rstan 2.39.0.9000;
-StanHeaders 2.39.1; posterior 1.7.0; dplyr 1.2.1; ggplot2 4.0.3;
+The reference four-chain run was made on Windows 11 with R 4.6.1; abcR 0.1.0.9000;
+rstan 2.39.0.9000; StanHeaders 2.39.1; posterior 1.7.0; dplyr 1.2.1; ggplot2 4.0.3;
 tidybayes 3.0.7; tidyr 1.3.2; lubridate 1.9.5.
-This is an environment record, **not a dependency lockfile**. Do not update a
-working environment just to run this bundle. Generate `renv.lock` locally with
-`scripts/snapshot_environment.R` if renv is available. Save abcR's RemoteSha or its
-source checkout: a development version number alone does not identify its code.
+
+This is an environment record, **not a dependency lockfile**. There is no need to
+change a working environment to run the scripts. Generate `renv.lock` locally with
+`scripts/snapshot_environment.R` if renv is available, and record abcR's RemoteSha
+or source checkout: a development version number alone does not identify its code.
 No installation commands execute automatically. The structural checks are conservative:
 an unsupported input stops for review rather than implying the model is unusable.
 
 ## Run from a fresh R session
 
-Set RStudio working directory to this repository root using Session > Set Working
-Directory > Choose Directory. First:
+Set the working directory to the repository root (in RStudio: Session > Set Working
+Directory > Choose Directory). First:
 
 ```r
 source("scripts/check_setup.R")
 ```
 
-### Option A: reuse your completed four-chain runs (recommended here)
+### Option A: reuse completed four-chain runs
 
-Keep your old `results/validation_4chains/` folder in this project. Import only if
-these are the exact anonymised-example runs discussed in the validation record:
+Keep an earlier `results/validation_4chains/` folder in the project. Import only if
+these are the exact anonymised-example runs described in the validation record:
 
 ```r
 source("scripts/import_existing_fits.R")
@@ -69,9 +65,9 @@ source("scripts/plot_results.R")
 ```
 
 Import checks dimensions and sampling settings, but cannot reconstruct which input
-bytes produced a historical fit. Provenance remains explicitly user-attested. It
-does not upgrade the old runs into independently verified fresh-session evidence.
-Do not import unrelated fits just because dimensions happen to match.
+bytes produced a historical fit, so provenance rests on the attestation. It does not
+turn old runs into independently verified fresh-session evidence. Do not import
+unrelated fits just because dimensions happen to match.
 
 ### Option B: execute a new, self-recording run
 
@@ -80,7 +76,7 @@ source("scripts/run_ABC_modern.R")
 ```
 
 This compiles once and samples nine groups. Four chains run sequentially by default.
-After interruption rerun the same command. An already-saved fit must have matching
+After an interruption, rerun the same command; an already-saved fit must have matching
 metadata and MD5. Change results_dir/reports_dir for a genuinely different run.
 
 ### Rebuild outputs without sampling
@@ -93,11 +89,11 @@ source("scripts/plot_results.R")
 
 ## Configuration and year coverage
 
-Edit `config/run_config.R` before starting a new run. The default matches the user's
-completed validation: 5000 warmup + 5000 sampling transitions, thin=5, four chains,
-adapt_delta=0.9, max_treedepth=12, latent end year 2031. Seeds are explicitly stored.
-Upstream preparation uses Sys.Date() for its horizon; this workflow overrides the
-returned nyears before initialisation and sampling.
+Edit `config/run_config.R` before starting a new run. The default matches the
+reference validation run: 5000 warmup + 5000 sampling transitions, thin=5, four
+chains, adapt_delta=0.9, max_treedepth=12, latent end year 2031. Seeds are stored
+explicitly. Upstream preparation uses Sys.Date() for its horizon; this workflow
+overrides the returned nyears before initialisation and sampling.
 
 Upstream `mdl_process()` uses lead(mu_ct,1) and lead(mu_ct,2). Therefore the default
 valid projected3t5 series ends in 2029; projected5/projected8 end in 2031. Missing
@@ -108,7 +104,7 @@ Future years are model extrapolations, not new observed data. Figures default to
 
 The upstream function applies pnorm, restores cap_adj, clips to [0,1], averages
 three age-specific draws for projected3t5, and calls point_interval(.width=0.9).
-This bundle preserves that implementation instead of reinterpreting its interval
+This workflow preserves that implementation instead of reinterpreting its interval
 or point-estimate defaults. Exact defaults remain tied to the installed tidybayes
 version. Output estimates are rounded to four decimals by upstream code.
 Country/category membership checks do not independently prove every index mapping;
@@ -116,42 +112,41 @@ full mapping and methodological parity with production remain review items.
 
 ## Results
 
-- `results/reproduction/`: complete fits, metadata and full output RDS; local only.
-- `reports/generated/`: actual newly computed diagnostics, valid/missing CSVs,
-  coverage, environment/function records and four-chain figures; ignored by default.
-- `reports/user_reported/`: explicitly labelled summary transcribed from the user's
-  completed run; not generated by executing this newly assembled bundle.
+- `results/reproduction/`: complete fits, metadata and full output RDS; kept local.
+- `reports/generated/`: newly computed diagnostics, valid/missing CSVs, coverage,
+  environment/function records and four-chain figures; ignored by default.
+- `reports/reference_run/`: a summary transcribed from the reference run, clearly
+  labelled as such; not generated by executing the scripts in this repository.
+- `reports/reviewed/`: selected small generated reports, copied here by hand after
+  inspection. Raw fits are never committed.
 
-For GitHub, inspect and copy selected generated small reports into
-`reports/reviewed/`, which is not ignored. Never commit raw fits by accident.
 Expected example counts per sex: primary/lower secondary each 9 countries x 48
 valid projected3t5 years = 432 rows; upper secondary 10 x 48 = 480. Other series
 have 50 years per country. IHC has upper-secondary data only.
 
 ## Acceptance scope
 
-Numerical screening is necessary, not sufficient. The user's completed runs had
-zero divergence/depth counts and no nonconstant Rhat >=1.01 or ESS <400 flags.
+Numerical screening is necessary, not sufficient. The reference run had zero
+divergence/depth counts and no nonconstant Rhat >=1.01 or ESS <400 flags.
 Constants were explained by model constraints; 168 missing output records were
-exactly expected terminal records. Energy ratios were calculated after thin=5,
-so full-transition E-BFMI has not been established by those ratios.
-For full-transition diagnostics, use thin=1 in a separate new run if required;
-do not rerun merely to inflate evidence.
+exactly the expected terminal records. Energy ratios were calculated after thin=5,
+so full-transition E-BFMI has not been established by those ratios. For
+full-transition diagnostics, use thin=1 in a separate new run if required.
 
-Remaining work before production: verify preprocessing including SE transformation
-and cap rules, complete index-mapping/methodology review, posterior predictive and
-held-out validation using appropriate data, compare production version/settings,
-and agree the intended release horizon. Input checks fail on unsupported cases
-rather than silently changing the upstream statistical method.
+Remaining work before any production use: verify preprocessing including the SE
+transformation and cap rules, complete the index-mapping/methodology review, run
+posterior predictive and held-out validation on appropriate data, compare against
+the production version and settings, and agree the intended release horizon. Input
+checks fail on unsupported cases rather than silently changing the upstream method.
 
-## Validation of this code bundle
+## Validation status
 
-The earlier workflow was executed on the user's machine. This newly assembled
-bundle has been structurally inspected and its modern model mechanically compared
-with the original; it has **not been run end-to-end here**, because this environment
-has no R installation or ABCtest.rda. Run check_setup.R and the import/output route
-in your working environment. Do not describe this bundle as fully validated until
-that fresh-session run succeeds. See docs/validation_status.md.
+The four-chain reference run was executed in an interactive R session. The scripts
+in this repository consolidate that code; they have been inspected and the modern
+Stan model compared line by line with the original, but they have **not yet been
+re-run end to end in a fresh session**. Until that run succeeds (check_setup.R, then
+the import/output route), treat the workflow as unvalidated. See
+`docs/validation_status.md`.
 
 ## Reference
 

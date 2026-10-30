@@ -1,8 +1,7 @@
 # 开始使用
 
-1. 将这些文件夹合并到你原来 ABC-main 的根目录，先备份同名 README。
-   保留 abcR/、data/ 和已有结果，不要删除目录。
-2. 确认根目录下有 data/ABCtest.rda（从原项目保留）。
+1. 克隆本仓库。
+2. 从上游仓库 AmeerD/ABC 取得公开测试数据，放到 data/ABCtest.rda（本仓库不重新分发该数据）。
 3. 在 RStudio 重启 R，设置工作目录为该根目录。
 4. 执行：
 
@@ -10,7 +9,7 @@
 source("scripts/check_setup.R")
 ```
 
-你已跑完四链，优先导入旧结果，避免重复计算：
+若已有四链结果，可先导入，避免重复计算：
 
 ```r
 source("scripts/import_existing_fits.R")
@@ -30,5 +29,5 @@ source("scripts/run_ABC_modern.R")
 ```
 
 原始抽样保存在 results/reproduction/，新表格与四链图片在 reports/generated/。
-包内记录了你已经报告的检查数值；新脚本尚需在你的 R 环境完成首次运行。
-详细说明、限制与 commit 建议见 README.md 和 docs/GITHUB_UPLOAD_zh.md。
+reports/reference_run/ 记录的是参考运行的检查数值；本仓库脚本尚未在全新会话中完整运行过。
+详细说明与限制见 README.md 和 docs/validation_status.md。

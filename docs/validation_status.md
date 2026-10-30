@@ -1,6 +1,6 @@
 # Validation status — 2026-10-22
 
-## Evidence supplied by the user (not rerun here)
+## Reference run (interactive session; not yet re-run from these scripts)
 
 Nine groups pt/pm/pf/lt/lm/lf/ut/um/uf, four chains each, iter=10000,
 warmup=5000, thin=5, adapt_delta=.9, max_treedepth=12. Each retained 4000
@@ -18,10 +18,11 @@ ten upper-secondary countries, including IHC only for upper secondary.
 
 ## Limits of the evidence
 
-Complete fit files, data, diagnostic tables and installed abcR source were not
-uploaded for independent inspection. Results above are transcribed user reports.
-The newly delivered scripts consolidate, but are not byte-for-byte copies of,
-the Console code. Extra input/cache checks therefore still require local execution.
+Complete fit files, data, diagnostic tables and the installed abcR source are not
+published for independent inspection. Results above are transcribed from the
+reference run. The scripts in this repository consolidate, but are not byte-for-byte
+copies of, the code used in that session, so their extra input/cache checks still
+require a local run.
 No predictive accuracy, full country-index mapping, prior sensitivity or UIS
 production equivalence has been established. Sampling diagnostics do not validate
 model assumptions. Public data are anonymised and noise-perturbed.

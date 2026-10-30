@@ -1,6 +1,7 @@
-# Import the already-completed user runs without sampling.
-# IMPORTANT: old fits do not prove the original data/config identity. The user
-# explicitly attests that these are the runs described in docs/validation_status.md.
+# Import already-completed four-chain runs without sampling.
+# IMPORTANT: old fits do not prove the original data/config identity. The caller
+# attests (attest_same_example = TRUE) that these are the runs described in
+# docs/validation_status.md.
 # Example:
 # source("scripts/import_existing_fits.R")
 # import_existing_fits("results/validation_4chains", attest_same_example = TRUE)
